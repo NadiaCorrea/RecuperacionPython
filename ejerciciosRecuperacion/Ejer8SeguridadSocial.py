@@ -6,7 +6,7 @@ La parte B está formada sólo por caracteres numéricos, al menos 2.
 Tanto la parte A como la parte B pueden ser la primera. 
 Se pide realizar un programa en pseudocódigo que solicite la identificación de la seguridad social 
 e informe de si es o no válida. """
-from _operator import index, pos
+
 
 def buscarGuion(cadena):
     pos = -1
