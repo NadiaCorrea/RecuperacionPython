@@ -18,7 +18,7 @@ def contarCaracteres(cadena, caracter):
             
     return result
 
-def contarCaracteres2(cadena, caracter):
+def contarCaracteres2(cadena, caracter):#ESTE ES MEJOR YA QUE NO GURADA INFORMACION INNECESARIA
     result = -1
     primer = -1
     ultimo = -1 
