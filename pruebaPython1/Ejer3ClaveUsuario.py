@@ -19,15 +19,14 @@ si mi respuesta es: 235 → El resto es 0, no tengo que hacer nada
 -88→ El resto es 3, es impar, lo sumo 
 El resultado de la clave es 7"""
 
-veces = int(input("¿Cuantos números deseas introducir?"))
+veces = int(input("¿Cuantos números deseas introducir?: "))
 clave = 0
 
 for i in range (0, veces):
     num = int(input("Introduce un número: "))
 
-    resto = num % 5
-    if resto != 0:
-        if abs(resto) % 2 > 0:
-            clave = clave + abs(resto)
+    resto = abs(num) % 5
+    if resto % 2 > 0:
+        clave = clave + resto
 
 print(clave)
