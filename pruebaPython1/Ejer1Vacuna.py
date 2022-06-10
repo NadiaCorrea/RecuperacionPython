@@ -39,7 +39,7 @@ if vacuna == 'Astrazeneca':
 
 #Si ha recibido Moderna y es mayor de 60 años, sólo debe volver a vacunarse si no ha pasado el covid.
 #En otro caso, lo que han recibido Moderna no deben volver a vacunarse.
-if vacuna == 'Moderna':
+elif vacuna == 'Moderna':
     if edad > 60 and covid == 'N':
         print('Debe volver a vacunarse.')
     else:
@@ -47,7 +47,7 @@ if vacuna == 'Moderna':
 
 #Si ha recibido Pfizer y no ha pasado el covid, debe volver a vacunarse,
 #y si lo ha pasado sólo se vacunará si es mayor de 70 años.    
-if vacuna == 'Pfizer':
+elif vacuna == 'Pfizer':
     if covid == 'N':
         print('Debe volver a vacunarse.')
     elif covid == 'S' and edad > 70:
