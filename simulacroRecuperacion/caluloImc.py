@@ -52,11 +52,11 @@ while (edad > 0) and (altura > 0) and (peso > 0):
     
     imc = peso/ (altura**2)
     resultadoImc = tipoImc(imc)
-
+    
     if imc > 25 and edad > 45:
-        mensaje = 'Dada su edad e IMC es recomendable que cuide su salud cardiovascular.'
-
-    elif imc > 30:
+            mensaje = 'Dada su edad e IMC es recomendable que cuide su salud cardiovascular.'
+    elif imc > 30 and edad < 46:
         mensaje = 'Dado su IMC es muy recomendable que cuide su salud cardiovascular. '
         
     print('Su IMC es: ' + str(round(imc,2)) + ' ' + resultadoImc + '.\n' + mensaje)
+    
