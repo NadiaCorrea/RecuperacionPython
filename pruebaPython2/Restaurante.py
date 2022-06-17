@@ -73,3 +73,7 @@ while comensales != -1:
         else:    
             print('Mesa asignada: ' + str(mesaAsignada + 1))
             print('Listado de mesas y comensales:\n' + str(mesasComensales(mesas)))
+            
+            
+            
+            
