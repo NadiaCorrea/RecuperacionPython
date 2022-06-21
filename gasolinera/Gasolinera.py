@@ -1,5 +1,8 @@
 """Vamos a realizar un programa  para una gasolinera que tiene cuatro surtidores y quiere que cuando 
-un coche llegue a nuestra gasolinera se le asigne el surtidor que esté más lleno dentro de su categoría (Diesel o Gasolina). La gasolinera tiene 4 surtidores, dos de gasolina (el 1 y el 2) y dos de diesel, (el 3 y el 4) y deberemos realizar un programa con el siguiente menú:
+un coche llegue a nuestra gasolinera se le asigne el surtidor que esté más lleno dentro de su categoría 
+(Diesel o Gasolina).
+La gasolinera tiene 4 surtidores, dos de gasolina (el 1 y el 2) y dos de diesel, (el 3 y el 4) 
+y deberemos realizar un programa con el siguiente menú:
 1. Llenar surtidor.
 2. LLegada de coche
 3. Ver puntos
@@ -29,15 +32,218 @@ podrá tener 3 decimales (las gasolineras son así). Al empezar el programa tamb
 poder trabajar con el programa.
 La opción 8 termina la ejecución del programa."""
 
-
 def menu():
     resultado = '1. Llenar surtidor\n2. LLegada de coche\n3. Ver puntos\n4. Comprobar ventas\n5. Ver surtidores\n6. Asignar precio de gasolina\n7. Asignar precio de diesel\n8. Salir'
     return resultado
 
+def comprobarMatricula(matricula):
+    result = False
+    digito = 0
+    letra = 0
 
-
-print(menu())
-opc = int(input("¿Qué opción deseas realizar?: "))
-
-if opc == 1: 
+    for i in range(0,4):
+        if ord(matricula[i]) >= 48 and ord(matricula[i]) <= 57: 
+            digito = digito + 1
     
+    for j in range(4,len(matricula)):
+        if (ord(matricula[j]) >= 65 and ord(matricula[j]) <= 90) or (ord(matricula[j]) >= 97 and ord(matricula[j]) <= 122):
+            letra = letra + 1
+    
+    if digito == 4 and letra == 3: 
+        result = True
+        
+    return result
+
+def comprobarCombustible(matricula):
+    tipo = ''
+    
+    if matricula in matriculasdiesel:
+        tipo = 'DIESEL'
+    elif matricula in matriculasgasolina:
+        tipo = 'GASOLINA'  
+    
+    return tipo
+
+def asignarSurtidor(tipo, cantidad):
+    result = -1
+    cantidadprevia = 0 
+    
+    if tipo == 'GASOLINA':
+    
+        if surtidores[0] >= surtidores[1]:
+            cantidadprevia = surtidores[0]
+            surtidores[0] = cantidadprevia -cantidad
+            result = 1
+            
+        else:
+            cantidadprevia = surtidores[1]
+            surtidores[1] = cantidadprevia -cantidad
+            result = 2
+    
+    elif tipo == 'DIESEL':
+        if surtidores[2] >= surtidores[3]:
+            cantidadprevia = surtidores[2]
+            surtidores[2] = cantidadprevia -cantidad
+            result = 3
+        else:
+            cantidadprevia = surtidores[3]
+            surtidores[3] = cantidadprevia -cantidad
+            result = 4
+    return result
+
+def asignarPuntos(matricula, dinero):
+    posicion = -1
+    puntosprevios = 0
+    puntos = dinero//10
+    dineroprevio = 0
+    
+    if matricula in matriculasdiesel:
+        posicion = matriculasdiesel.index(matricula)
+        puntosprevios = puntosdiesel[posicion]
+        puntosdiesel[posicion] = puntosprevios + puntos
+        dineroprevio = dinerodiesel[posicion]
+        dinerodiesel[posicion] = dineroprevio + dinero
+    elif matricula in matriculasgasolina:
+        posicion = matriculasgasolina.index(matricula)
+        puntosprevios = puntosgasolina[posicion]
+        puntosgasolina[posicion] = puntosprevios + puntos
+        dineroprevio = dinerogasolina[posicion]
+        dinerogasolina[posicion] = dineroprevio + dinero
+
+def conocerPuntos(matricula):
+    puntos = -1
+    
+    if matricula in matriculasdiesel:
+        posicion = matriculasdiesel.index(matricula)
+        puntos = puntosdiesel[posicion]
+        
+    elif matricula in matriculasgasolina:
+        posicion = matriculasgasolina.index(matricula)
+        puntos = puntosgasolina[posicion]
+    
+    return puntos   
+
+def mostrarListado():
+    result =''
+     
+    for i in range(0, len(matriculasdiesel)):
+        result = result + str(matriculasdiesel[i]) + ': ' + str(dinerodiesel[i]) + '\n'
+    for j in range(0, len(matriculasgasolina)):
+        result = result + str(matriculasgasolina[j]) +': ' +  str(dinerogasolina[j]) + '\n' 
+ 
+    return result
+
+def mostrarSurtidor():
+    result = 'Surtidores\n'
+    
+    for i in range(0, len(surtidores)):
+        result = result + str(i+1) + ': ' + str(surtidores[i]) + '\n' 
+    
+    return result
+
+#principal
+surtidores = [0,0,0,0]
+matriculasdiesel = ['5961HBY', '4121BDV']
+matriculasgasolina = ['3949JHK', '3456GDB' ]
+puntosdiesel = [5, 2]
+puntosgasolina =[5,7]
+dinerodiesel = [50, 20]
+dinerogasolina = [50, 70]
+repostaje = 0
+opc = 1
+
+gasolina = float(input('Introduce el precio de la gasolina: '))
+while gasolina < 1:
+    print('El precio no puede ser menor que 1.')
+    gasolina = float(input('Introduce el precio de la gasolina: '))
+    
+diesel = float(input("Introduce el precio del diesel: "))
+while diesel <1:
+    print('El precio no puede ser menor que 1.')
+    diesel = float(input("Introduce el precio del diesel: "))
+
+while opc != 8: 
+    print(menu())
+    opc = int(input("¿Qué opción deseas realizar?: "))
+
+    if opc == 1: 
+        
+        cantidad = int(input('Introduce la cantidad a rellenar: '))
+        while cantidad < 0: 
+            cantidad = int(input('Introduce la cantidad a rellenar: '))
+            
+        print('Gasolina: 1 y 2\nDiesel: 3 y 4')
+        tipo = int(input('¿Qué surtidor deseas llenar?: '))
+        while tipo < 0 or tipo > 4:
+            print('Gasolina: 1 y 2\nDiesel: 3 y 4')
+            tipo = int(input('¿Qué surtidor deseas llenar?: '))
+            
+        surtidor = surtidores [tipo -1]
+        surtidores[tipo -1] = surtidor + cantidad
+        print('Surtidor' + str(tipo) + 'llenado.')
+            
+    elif opc == 2:
+        
+        combustibe = ''
+        matricula = input('Introduce la matricula: ')
+        while len(matricula) > 7 or len(matricula) < 0:
+            matricula = input('Introduce la matricula: ')
+            
+        if comprobarMatricula(matricula) == True:
+            combustibe = comprobarCombustible(matricula)
+            if combustibe == '':
+                combustibe = input('Introduce el tipo de combustible (diesel o gasolina): ')
+                while combustibe.upper() != 'DIESEL' and combustibe.upper() != 'GASOLINA':
+                    combustibe = input('Introduce el tipo de combustible (diesel o gasolina): ')
+                
+                if combustibe == 'DIESEL':
+                    matriculasdiesel.append(matricula)
+                elif combustibe == 'GASOLINA':
+                    matriculasgasolina.append(matricula)
+            
+             
+            repostaje = float(input('Introduce la cantidad que quieres repostar: '))
+            while repostaje < 10: 
+                print('El importe deber ser 10 euros mínimos.')
+                repostaje = float(input('Introduce la cantidad que quieres repostar: '))
+            
+            surtidor = asignarSurtidor(combustibe, repostaje)
+            asignarPuntos(matricula, repostaje)
+            print('Ya puede repostar en el surtidor ' + str(surtidor))
+        else: 
+            print('La matricula no es valida.')
+                        
+    elif opc == 3:
+        
+        matricula = input('Introduce la matricula: ')
+        while len(matricula) > 7 or len(matricula) < 0:
+            matricula = input('Introduce la matricula: ')
+            
+        if comprobarMatricula(matricula) == True:
+            puntos = conocerPuntos(matricula)
+            print('Usted tiene ' + str(puntos) + ' acumulados.')
+        
+        else: 
+            print('Lo sentimos, no es un cliente registrado.')
+        
+    elif opc == 4:
+        print(mostrarListado())
+    elif opc == 5:
+        print(mostrarSurtidor())
+    elif opc == 6:
+        gasolina = float(input('Introduce el precio de la gasolina: '))
+        while gasolina < 1:
+            print('El precio no puede ser menor que 1.')
+            gasolina = float(input('Introduce el precio de la gasolina: '))
+    elif opc == 7:
+        diesel = float(input("Introduce el precio del diesel: "))
+        while diesel <1:
+            print('El precio no puede ser menor que 1.')
+            diesel = float(input("Introduce el precio del diesel: "))
+    elif opc == 8:
+        print('Adiós')
+    else:
+        print('Opción no válida.')  
+
+#matriculasdiesel = ['5961HBY', '4121BDV']
+#matriculasgasolina = ['3949JHK', '3456GDB' ]
